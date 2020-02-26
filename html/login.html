@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+    </head>
+    <style>
+
+    </style>       
+    <body>        
+        <form method="post"  action="#" id="login">
+         <p>登录 / <a href="javascript:void(0)"><span onclick="$('#login').hide();$('#regist').show()">去注册</span></a></p><br>
+          <div>
+            <label>账户</label>
+            <input type="text" name="userName" id="loginName">
+          </div><br>  
+          <div>
+            <label>密码</label>
+            <input type="password" name="userPassword"  id="loginPassword"> 
+          </div><br>          
+          <div><button type="button" id='loginSubmit'>登录</button></div><br>                   
+        </form>
+
+        <form method="post"  action="#" id='regist' style="display:none">
+            <p>注册 / <a href="javascript:void(0)"><span onclick="$('#login').show();$('#regist').hide()">去登录</span></a></p><br>
+            <div>
+              <label>账户</label>
+              <input type="text" name="userName" id="registName">
+            </div>
+            <div><br>  
+              <label>密码</label>
+              <input type="password" name="userPassword"  id="registPassword"> 
+            </div><br>
+            <div><button type="button" id='registSubmit'>注册</button></div><br>                     
+        </form>
+
+    </body>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script>
+      // 登录
+      $("#loginSubmit").on('click',()=>{
+        $.ajax({
+          url: '/myUrl/login',
+          type: 'POST',
+          data: {
+            userName: $("#loginName").val(),
+            userPassword: $("#loginPassword").val()
+          },
+          dataType: 'json',          
+          success (res) {
+            console.log(res)
+            if (res.code === 200) {
+              location.href = '/user.html'
+            } else {
+              alert(res.message)
+            }
+          },
+          error (res) {
+            console.log(res)
+          }
+        })
+      })
+      //  注册
+      $("#registSubmit").on('click',()=>{
+        $.ajax({
+          url: '/myUrl/regist',
+          type: 'POST',
+          data: {
+            userName: $("#registName").val(),
+            userPassword: $("#registPassword").val()
+          },
+          dataType: 'json',        
+          success (res) {
+            console.log(res)
+            if (res.code === 200) {
+              alert(res.message)
+            } else {
+              alert(res.message)
+            }
+          },
+          error (res) {
+            console.log(res)
+          }
+        })
+      })        
+    </script>
+</html>

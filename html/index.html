@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+    </head>
+    <body>
+        index.Page
+        <img width="300px" id='tiger' src="../image/tiger.jpg" alt="">
+        <br>
+        <br>
+        <button onclick="postAge()">获取你的年龄post</button>
+        <button onclick="getAge()">获取你的年龄get</button>
+        <button onclick="getTiger()">获取老虎get</button>     
+        <text id = 'age'></text>
+        
+        <h1><a href="index2.html">去index2页面</a></h1>
+    </body>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script>
+        function postAge() {
+            $.ajax({
+                url:'/myUrl/queryTest',
+                type:'POST',
+                data: {name:'张山'},
+                dataType:'json',
+                success:function (res) {
+                    console.log(res)
+                    $('#age').text(res.age)
+                },
+                error:function (res) {
+                    console.log(res)
+                }
+            })
+        }
+        function getAge() {
+            $.ajax({
+                url:'/myUrl/queryTest?name="张山"',
+                type:'get',
+                dataType:'json',
+                success:function (res) {
+                    console.log(res)
+                    $('#age').text(res.age)
+                },
+                error:function (res) {
+                    console.log(res)
+                }
+            })
+        }
+
+        function getTiger () {
+            $.ajax({
+                url:'/myUrl/Tiger',
+                type:'get',
+                dataType:'json',
+                success:function (res) {
+                    console.log(res)
+                    $('#tiger').attr('src',res.src)
+                },
+                error:function (res) {
+                    console.log(res)
+                }
+            })
+        }
+    </script>
+</html>

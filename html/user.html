@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+    </head>
+    <style>
+      table td, table th {
+        padding: 4px;        
+      }
+      table {
+        border-collapse: collapse;
+      }
+    </style>       
+    <body>
+      <header style="margin:20px">
+        <input id='queryValue' type="text" placeholder="用户ID/用户名/密码" style="padding-left:5px;height: 23px">
+        <button onclick="queryList()">查询</button>
+      </header> 
+      <table border="1"  id="table" width='100%'></table>
+    </body>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script>
+      queryList()
+      // 用户列表 
+      function queryList () {            
+        $.ajax({
+          url: '/myUrl/userList',
+          type: 'POST',
+          data: {queryValue: $("#queryValue").val()},          
+          dataType: 'json',          
+          success (res) {
+            console.log(res)
+            if (res.code === 200) {
+              let list = res.result
+              let html = `<tr>
+                            <th>用户id</th>
+                            <th>用户名</th>
+                            <th>登录密码</th>
+                          </tr>`
+              for (let i = 0; i < list.length; i++) {
+                html += `<tr>
+                          <td>${list[i].userId}</td>
+                          <td>${list[i].userName}</td>
+                          <td>${list[i].userPassword}</td>                          
+                        </tr>`                
+              }
+              if (list.length === 0) {
+                html += `<tr>
+                          <td colspan='3' style="text-align:center">暂无满足条件的记录~</td>                                               
+                        </tr>` 
+              }                     
+              $('#table').html(html)
+            } else {
+              alert(res.message)
+            }
+          },
+          error (res) {
+            console.log(res)
+          }
+        })
+      }
+    </script>
+</html>
